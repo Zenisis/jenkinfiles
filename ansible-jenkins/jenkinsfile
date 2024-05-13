@@ -1,0 +1,23 @@
+pipeline{
+ agent any
+   stages {
+        stage('Configure AWS CLI') {
+            steps {
+                script {
+                    // Use SSH agent to connect to the remote server
+                    sshagent(credentials: ['your-ssh-credentials-id']) {
+                        // Execute AWS configure commands on the remote server
+                        sh 'ssh user@remote-host "sudo apt update && sudo apt install -y awscli"'
+                        sh 'ssh user@remote-host "aws configure set aws_access_key_id \'${AWS_ACCESS_KEY_ID}\'"'
+                        sh 'ssh user@remote-host "aws configure set aws_secret_access_key \'${AWS_SECRET_ACCESS_KEY}\'"'
+                        sh 'ssh user@remote-host "aws configure set region \'${AWS_REGION}\'"'
+                    }
+                }
+            }
+        }
+        stage () {
+          steps {
+              sh
+          }
+        }
+}
